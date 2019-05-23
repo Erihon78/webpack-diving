@@ -1,5 +1,5 @@
 require('@babel/runtime/regenerator');
-require('webpack-hot-middleware/client');
+require('webpack-hot-middleware/client?reload=true');
 require('./main.css');
 require('./index.html');
 
@@ -17,7 +17,7 @@ require('./index.html');
 
 let a = async () => {
     await console.log('Hello from babel');
-    console.log('Done!');
+    console.log('Done now!');
 }
 
 a();
