@@ -1,4 +1,7 @@
 * {
-    color: purple;
-    font-size: 1.4em;
+    color: #3a3a3a;    
+}
+
+button {
+    margin: 20px 0px;
 }
