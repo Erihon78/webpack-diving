@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config=config/webpack.dev.js",
-    "build": "NODE_ENV=production webpack --config=config/webpack.prod.js",
-    "build:dev": "NODE_ENV=development webpack --config=config/webpack.dev.js",
-    "dev": "nodemon --watch config --watch src/server src/server/main.js"
+    "build": "webpack --config=config/webpack.prod.js --env.NODE_ENV=production",
+    "build:dev": "webpack --config=config/webpack.dev.js",
+    "dev": "nodemon --watch config --watch src/server src/server/main.js",
+    "prod": "NODE_ENV=production node src/server/main.js"
   },
   "keywords": [],
   "author": "",
@@ -38,6 +39,9 @@
     "@babel/register": "^7.4.4",
     "@babel/runtime": "^7.4.5",
     "babel-loader": "^8.0.6",
-    "optimize-css-assets-webpack-plugin": "^5.0.1"
+    "babel-minify": "^0.5.0",
+    "babel-minify-webpack-plugin": "^0.3.1",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "uglifyjs-webpack-plugin": "^2.1.3"
   }
 }
