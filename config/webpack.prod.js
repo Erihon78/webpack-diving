@@ -5,6 +5,8 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const MinifyPlugin = require('babel-minify-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
 
 module.exports = env => {
     return {
@@ -63,7 +65,16 @@ module.exports = env => {
             ]
         },
         plugins: [
-            new OptimizeCssAssetsPlugin(),
+            new OptimizeCssAssetsPlugin({
+                assetNameRegExp: /\.css$/g,
+                cssProcessor: require('cssnano'),
+                cssProcessorOptions: {
+                    discardComments: {
+                        removeAll: true
+                    }
+                },
+                canPrint: true
+            }),
             new MiniCSSExtractPlugin({
                 filename: '[name]-[contenthash:8].css'
             }),
@@ -78,7 +89,11 @@ module.exports = env => {
             }),
             new webpack.NamedModulesPlugin,
             // new MinifyPlugin()
-            new UglifyJSPlugin()
+            new UglifyJSPlugin(),
+            new CompressionPlugin({
+                algorithm: 'gzip'
+            }),
+            new BrotliPlugin()
         ]
     }
 }

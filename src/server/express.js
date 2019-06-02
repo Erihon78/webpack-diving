@@ -19,10 +19,17 @@ server.use(webpackDevMiddleware)
 
 server.use(webpackHotMiddleware)
 
-const staticMiddleware = express.static('dist')
+const staticMiddleware = express.static('dist', {
+    enableBrotli: true
+})
 
 server.use(staticMiddleware);
 
-server.listen(8080, () => {
-    console.log('Server is listening');
+const expressStaticGzip = require('express-static-gzip');
+server.use(expressStaticGzip('dist'));
+
+const PORT = 8080;
+
+server.listen(PORT, () => {
+    console.log(`Server is listening on http://127.0.0.1:${PORT}`);
 })
