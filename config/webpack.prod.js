@@ -1,13 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-// const MinifyPlugin = require('babel-minify-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = env => {
     return {
@@ -35,16 +34,16 @@ module.exports = env => {
                     test: /\.css$/,
                     use: [
                         {
-                          loader: MiniCssExtractPlugin.loader,
-                          options: {
-                            // you can specify a publicPath here
-                            // by default it uses publicPath in webpackOptions.output
-                            publicPath: './dist',
-                            hmr: 'production',
-                          },
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                // you can specify a publicPath here
+                                // by default it uses publicPath in webpackOptions.output
+                                publicPath: './dist',
+                                hmr: 'production',
+                            },
                         },
                         'css-loader',
-                      ],
+                    ],
                 },
                 {
                     test: /\.html$/,
@@ -72,8 +71,15 @@ module.exports = env => {
         },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: '[name].css',
-                chunkFilename: '[id].css',
+                filename: '[name]-[hash].css',
+            }),
+            new OptimizeCssAssetsPlugin({
+                assetNameRegExp: /\.css$/g,
+                cssProcessor: require('cssnano'),
+                cssProcessorPluginOptions: {
+                    preset: ['default', { discardComments: { removeAll: true } }],
+                },
+                canPrint: true
             }),
             new HTMLWebpackPlugin({
                 template: './src/index.html',
@@ -85,12 +91,12 @@ module.exports = env => {
                 }
             }),
             new webpack.NamedModulesPlugin,
-            // new MinifyPlugin()
             new UglifyJSPlugin(),
             new CompressionPlugin({
                 algorithm: 'gzip'
             }),
-            new BrotliPlugin()
+            new BrotliPlugin(),
+            new CleanWebpackPlugin()            
         ]
     }
 }
