@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const MinifyPlugin = require('babel-minify-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -34,11 +35,16 @@ module.exports = env => {
                     test: /\.css$/,
                     use: [
                         {
-                            loader: MiniCSSExtractPlugin.loader
-                        }, {
-                            loader: 'css-loader'
-                        }
-                    ]
+                          loader: MiniCssExtractPlugin.loader,
+                          options: {
+                            // you can specify a publicPath here
+                            // by default it uses publicPath in webpackOptions.output
+                            publicPath: './dist',
+                            hmr: 'production',
+                          },
+                        },
+                        'css-loader',
+                      ],
                 },
                 {
                     test: /\.html$/,
@@ -65,18 +71,9 @@ module.exports = env => {
             ]
         },
         plugins: [
-            new OptimizeCssAssetsPlugin({
-                assetNameRegExp: /\.css$/g,
-                cssProcessor: require('cssnano'),
-                cssProcessorOptions: {
-                    discardComments: {
-                        removeAll: true
-                    }
-                },
-                canPrint: true
-            }),
-            new MiniCSSExtractPlugin({
-                filename: '[name]-[contenthash:8].css'
+            new MiniCssExtractPlugin({
+                filename: '[name].css',
+                chunkFilename: '[id].css',
             }),
             new HTMLWebpackPlugin({
                 template: './src/index.html',

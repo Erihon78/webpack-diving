@@ -15,7 +15,7 @@ class Counter extends Component {
     }
     render() {
         return (
-            <button onClick={this.getClicked.bind(this)}>Click on me – {this.state.count}</button>
+            <button onClick={this.getClicked.bind(this)}>Click on me – {this.state.count} {this.props.heading}</button>
         )
     }
 }
