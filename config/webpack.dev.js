@@ -1,9 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const WebpackMildCompile = require('webpack-mild-compile').Plugin;
 
-module.exports = { 
+module.exports = {
     entry: {
         main: [
             '@babel/runtime/regenerator',
@@ -25,18 +25,6 @@ module.exports = {
         hot: true,
         stats: {
             colors: true
-        }
-    },
-    optimization: {
-        splitChunks: {
-            chunks: 'all',
-            cacheGroups: {
-                vendor: {
-                    name: 'vendor',
-                    chunks: 'initial',
-                    minChunks: 2
-                }
-            }
         }
     },
     devtool: 'source-map',
@@ -64,7 +52,7 @@ module.exports = {
             {
                 test: /\.html$/,
                 use: [
-                   {
+                    {
                         loader: 'html-loader',
                         options: {
                             attrs: ['img:src']
@@ -78,8 +66,16 @@ module.exports = {
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'image/[name]-[hash:8].[ext]'
+                            name: 'image/[name].[ext]'
                         }
+                    }
+                ]
+            },
+            {
+                test: /\.md$/,
+                use: [
+                    {
+                        loader: 'markdown-with-front-matter-loader'
                     }
                 ]
             }
@@ -87,11 +83,9 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new HTMLWebpackPlugin({
-            template: './src/index.html'
-        }),
-        new BundleAnalyzerPlugin({
-            generateStatsFile: true
-        })
+        new WebpackMildCompile()
+        // new HTMLWebpackPlugin({
+        //     template: './src/index.html'
+        // })
     ]
 }

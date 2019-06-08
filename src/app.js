@@ -5,7 +5,7 @@ import Counter from './counter';
 import Data from './../data/bio';
 
 const render = Component => {
-    ReactDOM.render(
+    ReactDOM.hydrate(
         <AppContainer>
             <Component heading={Data.heading} content={Data.bioText}/>
         </AppContainer>,
