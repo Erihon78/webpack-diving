@@ -19,7 +19,7 @@ console.log(process.env.NODE_ENV)
 
 if (isDev) {
     const compiler = webpack([configDevClient, configDevServer]);
-    
+
     const clientCompiler = compiler.compilers[0];
     const serverCompiler = compiler.compilers[1];
 
@@ -30,7 +30,7 @@ if (isDev) {
         configDevClient.devServer
     );
 
-    const webpackHotMiddleware = require('webpack-hot-middleware')(
+    const webpackHotMiddleware = require('webpack-hot-ymiddleware')(
         clientCompiler,
         configDevClient.devServer
     );
@@ -40,15 +40,17 @@ if (isDev) {
     server.use(webpackHotServerMiddleware(compiler));
     console.log('Middleware enabled');
 } else {
-    const render = require('./render');
+    webpack([configProdClient, configProdServer]).run((err, stats) => {
+        const render = require('../../build/prod-server-bundle.js').default;
 
-    server.use(
-        expressStaticGzip('dist', {
-            enableBrotli: true
-        })
-    )
+        server.use(
+            expressStaticGzip('dist', {
+                enableBrotli: true
+            })
+        )
 
-    server.use(render())
+        server.use(render())
+    });
 }
 
 const PORT = 8080;
