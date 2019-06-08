@@ -42,7 +42,18 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it uses publicPath in webpackOptions.output
+                            publicPath: '../',
+                            hmr: 'development',
+                        },
+                    },
+                    'css-loader',
+                ],
             },
             {
                 test: /\.html$/,
@@ -54,7 +65,7 @@ module.exports = {
                         }
                     }
                 ]
-            },            
+            },
             {
                 test: /\.(jpg|gif|png)$/,
                 use: [
@@ -85,6 +96,12 @@ module.exports = {
                 preset: ['default', { discardComments: { removeAll: true } }],
             },
             canPrint: true
-        })
+        }),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: '[name].css',
+            chunkFilename: '[id].css',
+        }),
     ]
 }

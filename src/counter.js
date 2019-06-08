@@ -18,7 +18,7 @@ class Counter extends Component {
         return (
             <div>
                 <h1>Make World Greate Again!</h1>
-                <img src="images/index_3.jpg" width="100" height="auto"/>
+                <img src="/images/index_3.jpg" width="100" height="auto"/>
                 <button onClick={this.getClicked.bind(this)}>Click on me – {this.state.count}</button>
                 <h2>{'Title'}</h2>
                 {/* <mark>{MarkdownData.author}</mark> */}
