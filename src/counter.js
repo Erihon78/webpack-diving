@@ -20,7 +20,7 @@ class Counter extends Component {
                 <h1>Make World Greate Again!</h1>
                 <img src="/images/index_3.jpg" width="100" height="auto"/>
                 <button onClick={this.getClicked.bind(this)}>Click on me – {this.state.count}</button>
-                <h2>{'Title'}</h2>
+                <h3>{'Title'}</h3>
                 {/* <mark>{MarkdownData.author}</mark> */}
                 <code>
                     <pre dangerouslySetInnerHTML={{__html: 'Html code goes hear'}}></pre>
