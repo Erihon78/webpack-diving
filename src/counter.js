@@ -17,14 +17,7 @@ class Counter extends Component {
     render() {
         return (
             <div>
-                <h1>Make World Greate Again!</h1>
-                <img src="/images/index_3.jpg" width="100" height="auto"/>
-                <button onClick={this.getClicked.bind(this)}>Click on me – {this.state.count}</button>
-                <h3>{'Title'}</h3>
-                {/* <mark>{MarkdownData.author}</mark> */}
-                <code>
-                    <pre dangerouslySetInnerHTML={{__html: 'Html code goes hear'}}></pre>
-                </code>
+               <h1>One</h1>
             </div>
         )
     }

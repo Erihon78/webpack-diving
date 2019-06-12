@@ -1,6 +1,7 @@
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import Counter from '../counter';
+import { renderToString } from 'react-dom/server';
+import { StaticRouter } from 'react-router';
+import Routes from './../Routes';
 
 export default () => (req, res) => {
     res.send(`
@@ -11,7 +12,11 @@ export default () => (req, res) => {
                 <link rel="stylesheet" type="text/css" href="/main.css"/>
             </head>
             <body>
-                <div id="react-root">${ReactDOMServer.renderToString(<Counter />)}</div>
+                <div id="react-root">${renderToString(
+                    <StaticRouter location={req.url} context={{}}>
+                        <Routes/>
+                    </StaticRouter>
+                )}</div>
             </body>            
             <script src="/main-bundle.js" type="text/javascript"></script>
         </html>

@@ -102,11 +102,9 @@ module.exports = {
             },
             canPrint: true
         }),
-        new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
+        new MiniCssExtractPlugin({            
             filename: '[name].css',
             chunkFilename: '[id].css',
-        }),
+        })       
     ]
 }

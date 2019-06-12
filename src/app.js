@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import Counter from './counter';
+import Links from './Links';
 import Data from './../data/bio';
 
 const render = Component => {
@@ -13,11 +13,11 @@ const render = Component => {
     )
 }
 
-render(Counter);
+render(Links);
 
 if (module.hot) {
-    module.hot.accept('./counter', () => {
-        const NewCounter = require('./counter').default;
-        render(NewCounter);
+    module.hot.accept('./Links', () => {
+        const NewLinks = require('./Links').default;
+        render(NewLinks);
     })
 }
