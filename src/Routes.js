@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-
-const Gallery = () => {
-    return (
-        <div>
-            <h1>Gallery</h1>
-        </div>
-    );
-}
+import Gallery from './components/Gallery';
 
 const Article = () => {
     return (
