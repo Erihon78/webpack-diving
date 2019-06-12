@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
+const externals = require('./node-externals');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -14,7 +14,7 @@ module.exports = {
         libraryTarget: 'commonjs2'
     },
     target: 'node',
-    externals: nodeExternals(),
+    externals,
     module: {
         rules: [
             {
@@ -51,7 +51,7 @@ module.exports = {
                             // you can specify a publicPath here
                             // by default it uses publicPath in webpackOptions.output
                             publicPath: './dist',
-                            hmr: 'production',
+                            hmr: 'development',
                         },
                     },
                     'css-loader',
@@ -71,6 +71,9 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks:1
+        }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('development')

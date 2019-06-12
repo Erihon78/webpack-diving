@@ -3,6 +3,7 @@
     "plugins": [
         "@babel/transform-runtime", 
         "react-hot-loader/babel", 
-        "syntax-dynamic-import"
+        "syntax-dynamic-import",
+        "universal-import"
     ]        
 }

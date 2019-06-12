@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
@@ -16,6 +15,7 @@ module.exports = {
     mode: 'production',
     output: {
         filename: "[name]-bundle.js",
+        chunkFilename: "[name].js",
         path: path.resolve(__dirname, '../dist'),
         publicPath: '/'
     },
@@ -89,10 +89,6 @@ module.exports = {
             },
             canPrint: true
         }),
-        // new HTMLWebpackPlugin({
-        //     template: './src/index.html',
-        //     inject: true,
-        // }),
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production')

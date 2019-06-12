@@ -47,7 +47,7 @@ if (isDev) {
             })
         )
 
-        server.use(render())
+        server.use('*', render())
     });
 }
 

@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.6",
+    "babel-plugin-universal-import": "^4.0.0",
     "compression": "^1.7.4",
     "compression-webpack-plugin": "^2.0.0",
     "css-loader": "^2.1.1",
@@ -26,6 +27,7 @@
     "react-hot-loader": "^4.9.0",
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
+    "react-universal-component": "^4.0.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.32.2",
     "webpack-cli": "^3.3.2",

@@ -1,18 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
-const nodeExternals = require('webpack-node-externals');
+const externals = require('./node-externals');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
     name: 'server',
     entry: './src/server/render.js',
     mode: 'production',
     output: {
-        filename: "prod-server-bundle.js",
+        filename: "dev-server-bundle.js",
         path: path.resolve(__dirname, '../build'),
         libraryTarget: 'commonjs2'
     },
     target: 'node',
-    externals: nodeExternals(),
+    externals,
     module: {
         rules: [
             {
@@ -23,6 +25,11 @@ module.exports = {
                     }
                 ],
                 exclude: /node_modules/
+            },
+            {
+                test: /\.(js|jsx)$/,
+                use: 'react-hot-loader/webpack',
+                include: /node_modules/
             },
             {
                 test: /\.html$/,
@@ -36,12 +43,27 @@ module.exports = {
                 ]
             },
             {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it uses publicPath in webpackOptions.output
+                            publicPath: './dist',
+                            hmr: 'production',
+                        },
+                    },
+                    'css-loader',
+                ],
+            },
+            {
                 test: /\.(jpg|gif|png)$/,
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
-                            name: '/images/[name].[ext]'
+                            name: 'images/[name].[ext]'
                         }
                     }
                 ]
@@ -49,11 +71,25 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks:1
+        }),
         new webpack.DefinePlugin({
             'process.env': {
-                NODE_ENV: JSON.stringify('production')
+                NODE_ENV: JSON.stringify('development')
             }
         }),
-        new webpack.NamedModulesPlugin
+        new webpack.NamedModulesPlugin,
+        new MiniCssExtractPlugin({
+            filename: 'main.css',
+        }),
+        new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /\.css$/g,
+            cssProcessor: require('cssnano'),
+            cssProcessorPluginOptions: {
+                preset: ['default', { discardComments: { removeAll: true } }],
+            },
+            canPrint: true
+        })
     ]
 }
