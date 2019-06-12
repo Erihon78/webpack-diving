@@ -81,7 +81,10 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCSSExtractPlugin(),
+        new MiniCSSExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[name]-[hash:8].css"
+        }),
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,
             cssProcessor: require("cssnano"),
@@ -95,9 +98,9 @@ module.exports = {
             }
         }),
         new UglifyJSPlugin(),
-        // new CompressionPlugin({
-        //     algorithm: "gzip"
-        // }),
+        new CompressionPlugin({
+            algorithm: "gzip"
+        }),
         new BrotliPlugin()
     ]
 }
