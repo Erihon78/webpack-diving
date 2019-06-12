@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import Links from './Links';
+import Links from './components/Links';
 import Data from './../data/bio';
 
 const render = Component => {
@@ -16,8 +16,8 @@ const render = Component => {
 render(Links);
 
 if (module.hot) {
-    module.hot.accept('./Links', () => {
-        const NewLinks = require('./Links').default;
+    module.hot.accept('./components/Links', () => {
+        const NewLinks = require('./components/Links').default;
         render(NewLinks);
     })
 }

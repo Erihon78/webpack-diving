@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../css/Gallery.css';
 
 const getBundle = () => {
     import('lodash').then(_ => {
@@ -11,6 +12,9 @@ class Gallery extends Component {
         return (
             <div>
                 <h1 onClick={getBundle} className="heading">Gallery</h1>
+                <div className="section-gallery">
+                    Some news goes hear
+                </div>
             </div>
         )
     }

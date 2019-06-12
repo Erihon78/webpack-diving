@@ -6,6 +6,8 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
     name: 'server',
+    target: 'node',
+    externals,
     entry: './src/server/render.js',
     mode: 'development',
     output: {
@@ -13,8 +15,6 @@ module.exports = {
         path: path.resolve(__dirname, '../build'),
         libraryTarget: 'commonjs2'
     },
-    target: 'node',
-    externals,
     module: {
         rules: [
             {
@@ -51,7 +51,7 @@ module.exports = {
                             // you can specify a publicPath here
                             // by default it uses publicPath in webpackOptions.output
                             publicPath: './dist',
-                            hmr: 'development',
+                            hmr: 'production',
                         },
                     },
                     'css-loader',
@@ -70,10 +70,7 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new webpack.optimize.LimitChunkCountPlugin({
-            maxChunks:1
-        }),
+    plugins: [        
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('development')

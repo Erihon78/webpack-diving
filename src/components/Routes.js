@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Link, Switch } from 'react-router-dom';
 import universal from 'react-universal-component';
 
-const UniversalComponent = universal(props => import (`./components/${props.page}`));
+const UniversalComponent = universal(props => import (`./${props.page}`));
 
 class Routes extends Component {
     render() {

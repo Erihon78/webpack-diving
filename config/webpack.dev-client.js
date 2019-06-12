@@ -49,15 +49,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            // you can specify a publicPath here
-                            // by default it uses publicPath in webpackOptions.output
-                            publicPath: '../',
-                            hmr: 'development',
-                        },
-                    },
+                    MiniCssExtractPlugin.loader,
                     'css-loader',
                 ],
             },
@@ -93,14 +85,14 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new webpack.HotModuleReplacementPlugin(),
+    plugins: [        
         new webpack.DefinePlugin({
             "process.env": {
                 NODE_ENV: JSON.stringify("development"),
                 WEBPACK: true
             }
         }),
+        new webpack.HotModuleReplacementPlugin(),
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,
             cssProcessor: require('cssnano'),
@@ -109,9 +101,9 @@ module.exports = {
             },
             canPrint: true
         }),
-        new MiniCssExtractPlugin({
+         new MiniCssExtractPlugin({
             filename: '[name].css',
-            chunkFilename: '[id].css',
+            chunkFilename: "[name]-[hash:8].css"
         })
     ]
 }

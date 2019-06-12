@@ -1,11 +1,10 @@
-const path = require('path');
-const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
-const BrotliPlugin = require('brotli-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const path = require("path")
+const webpack = require("webpack")
+const MiniCSSExtractPlugin = require("mini-css-extract-plugin")
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin")
+const CompressionPlugin = require("compression-webpack-plugin")
+const BrotliPlugin = require("brotli-webpack-plugin");
 
 module.exports = {
     name: 'client',
@@ -18,6 +17,18 @@ module.exports = {
         chunkFilename: "[name].js",
         path: path.resolve(__dirname, '../dist'),
         publicPath: '/'
+    },
+    optimization: {
+        splitChunks: {
+            automaticNameDelimiter: "-",
+            cacheGroups: {
+                vendor: {
+                    name: "vendor",
+                    chunks: "initial",
+                    minChunks: 2
+                }
+            }
+        }
     },
     module: {
         rules: [
@@ -33,15 +44,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    {
-                        loader: MiniCssExtractPlugin.loader,
-                        options: {
-                            // you can specify a publicPath here
-                            // by default it uses publicPath in webpackOptions.output
-                            publicPath: './dist',
-                            hmr: 'production',
-                        },
-                    },
+                    MiniCSSExtractPlugin.loader,
                     'css-loader',
                 ],
             },
@@ -78,28 +81,23 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: 'main.css',
-        }),
+        new MiniCSSExtractPlugin(),
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,
-            cssProcessor: require('cssnano'),
-            cssProcessorPluginOptions: {
-                preset: ['default', { discardComments: { removeAll: true } }],
-            },
+            cssProcessor: require("cssnano"),
+            cssProcessorOptions: { discardComments: { removeAll: true } },
             canPrint: true
         }),
         new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('production')
+            "process.env": {
+                NODE_ENV: JSON.stringify("production"),
+                WEBPACK: true
             }
         }),
-        new webpack.NamedModulesPlugin,
         new UglifyJSPlugin(),
-        new CompressionPlugin({
-            algorithm: 'gzip'
-        }),
-        new BrotliPlugin(),
-        new CleanWebpackPlugin()
+        // new CompressionPlugin({
+        //     algorithm: "gzip"
+        // }),
+        new BrotliPlugin()
     ]
 }
